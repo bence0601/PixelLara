@@ -8,7 +8,7 @@ namespace PixelLara.Models
         public int Id { get; set; }
         public string ShortDescription { get; set; } = string.Empty;
         public string LongDescription { get; set; } = string.Empty;
-        public DateOnly DeadLine { get; set; }
+        public DateTime DeadLine { get; set; }
         public ContactEnum Contact { get; set; }
 
         public DateTime ContractTimeSet { get; set; } = DateTime.Now;
