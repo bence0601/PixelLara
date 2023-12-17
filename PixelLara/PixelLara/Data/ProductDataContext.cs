@@ -6,14 +6,18 @@ namespace PixelLara.Data
 {
     public class ProductDataContext : DbContext
     {
-        private readonly IConfiguration _configuration;
-
-        public ProductDataContext(DbContextOptions<ProductDataContext> options, IConfiguration configuration) : base(options)
+        public ProductDataContext(DbContextOptions<ProductDataContext> options) : base(options)
         {
-            _configuration = configuration;
+
+        }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            base.OnConfiguring(optionsBuilder);
+            optionsBuilder.UseSqlServer("Server=localhost\\SQLExpress;Database=PixelLaraDataBase;Trusted_Connection=True;TrustServerCertificate=true");
         }
 
         public DbSet<ProductModel> Orders { get; set; }
-
     }
 }
+
