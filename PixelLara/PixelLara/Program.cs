@@ -4,10 +4,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using PixelLara.Data;
-using PixelLara.Services;
 using PixelLara.Services.Authentication;
+using PixelLara.Services;
 using System.Text;
-
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,8 +17,6 @@ builder.Services.AddScoped<IPageService, PageService>();
 builder.Services.AddDbContext<UsersContext>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
-
-
 
 builder.Services.AddDbContext<ProductDataContext>(options =>
 {
@@ -39,6 +36,8 @@ builder.Services
             ValidateIssuerSigningKey = true,
             ValidIssuer = "apiWithAuthBackend",
             ValidAudience = "apiWithAuthBackend",
+
+            // Replace this line with the known secret key
             IssuerSigningKey = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes("!SomethingSecret!")
             ),
@@ -90,12 +89,21 @@ var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
+    // Add the following line to enable detailed error pages in development
+    app.UseDeveloperExceptionPage();
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
-app.UseAuthentication();
-app.UseAuthorization();
+try
+{
+    app.UseAuthentication();
+    app.UseAuthorization();
+}
+catch (Exception ex)
+{
+    Console.WriteLine($"An error occurred: {ex.Message}");
+}
 app.MapControllers();
 app.Run();

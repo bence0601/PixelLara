@@ -42,9 +42,9 @@ namespace PixelLara.Services.Authentication
                     new Claim(JwtRegisteredClaimNames.Sub, "TokenForTheApiWithAuth"),
                     new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                     new Claim(JwtRegisteredClaimNames.Iat, DateTime.UtcNow.ToString(CultureInfo.InvariantCulture)),
-                    new Claim(ClaimTypes.NameIdentifier, user.Id),
-                    new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(ClaimTypes.Email, user.Email)
+                    new Claim(ClaimTypes.NameIdentifier, user.Id ?? ""),
+                    new Claim(ClaimTypes.Name, user.UserName ?? ""),
+                    new Claim(ClaimTypes.Email, user.Email ?? "")
                 };
                 return claims;
             }
@@ -57,12 +57,19 @@ namespace PixelLara.Services.Authentication
 
         private SigningCredentials CreateSigningCredentials()
         {
+            string secretKey = "!SomethingSecret!";
+            byte[] keyBytes = Encoding.UTF8.GetBytes(secretKey);
+
+            // Trim or pad the key to make it exactly 32 bytes
+            Array.Resize(ref keyBytes, 32);
+
             return new SigningCredentials(
-                new SymmetricSecurityKey(
-                    Encoding.UTF8.GetBytes("!SomethingSecret!")
-                ),
+                new SymmetricSecurityKey(keyBytes),
                 SecurityAlgorithms.HmacSha256
             );
         }
+
+
+
     }
 }

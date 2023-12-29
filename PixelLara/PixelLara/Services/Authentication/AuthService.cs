@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 
 namespace PixelLara.Services.Authentication
 {
@@ -23,12 +24,12 @@ namespace PixelLara.Services.Authentication
                 return FailedRegistration(result, email, username);
             }
 
-            return new AuthResult(true, email, username, "");
+            return new AuthResult(true, email ?? "", username ?? "", "");
         }
 
         private static AuthResult FailedRegistration(IdentityResult result, string email, string username)
         {
-            var authResult = new AuthResult(false, email, username, "");
+            var authResult = new AuthResult(false, email ?? "", username ?? "", "");
 
             foreach (var error in result.Errors)
             {
@@ -37,6 +38,7 @@ namespace PixelLara.Services.Authentication
 
             return authResult;
         }
+
         public async Task<AuthResult> LoginAsync(string email, string password)
         {
             var managedUser = await _userManager.FindByEmailAsync(email);
@@ -49,26 +51,27 @@ namespace PixelLara.Services.Authentication
             var isPasswordValid = await _userManager.CheckPasswordAsync(managedUser, password);
             if (!isPasswordValid)
             {
-                return InvalidPassword(email, managedUser.UserName);
+                return InvalidPassword(email, managedUser.UserName ?? "");
             }
 
             var accessToken = _tokenService.CreateToken(managedUser);
 
-            return new AuthResult(true, managedUser.Email, managedUser.UserName, accessToken);
+            return new AuthResult(true, managedUser.Email ?? "", managedUser.UserName ?? "", accessToken);
         }
 
         private static AuthResult InvalidEmail(string email)
         {
-            var result = new AuthResult(false, email, "", "");
+            var result = new AuthResult(false, email ?? "", "", "");
             result.ErrorMessages.Add("Bad credentials", "Invalid email");
             return result;
         }
 
         private static AuthResult InvalidPassword(string email, string userName)
         {
-            var result = new AuthResult(false, email, userName, "");
+            var result = new AuthResult(false, email ?? "", userName ?? "", "");
             result.ErrorMessages.Add("Bad credentials", "Invalid password");
             return result;
         }
+
     }
 }
