@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using PixelLara.Data;
 using PixelLara.Services;
+using PixelLara.Services.Authentication;
 using System.Text;
 
 
@@ -14,7 +16,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IPageService, PageService>();
 builder.Services.AddDbContext<UsersContext>();
-
+builder.Services.AddScoped<IAuthService, AuthService>();
 
 
 
@@ -41,6 +43,19 @@ builder.Services
             ),
         };
     });
+
+builder.Services
+    .AddIdentityCore<IdentityUser>(options =>
+    {
+        options.SignIn.RequireConfirmedAccount = false;
+        options.User.RequireUniqueEmail = true;
+        options.Password.RequireDigit = false;
+        options.Password.RequiredLength = 6;
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequireUppercase = false;
+        options.Password.RequireLowercase = false;
+    })
+    .AddEntityFrameworkStores<UsersContext>();
 
 var app = builder.Build();
 
