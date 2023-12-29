@@ -18,6 +18,7 @@ namespace PixelLara.Controllers
         }
 
         [HttpGet("/getAllProducts")]
+        [Authorize]
         public async Task<ActionResult<List<ProductModel>>> GetProducts()
         {
             var result = await _pageService.GetProductsAsync();
