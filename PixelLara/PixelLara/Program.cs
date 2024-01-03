@@ -1,19 +1,22 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using PixelLara.Data;
 using PixelLara.Services.Authentication;
 using PixelLara.Services;
+using System;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add services
 builder.Services.AddControllers();
-
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped<IPageService, PageService>();
+
 builder.Services.AddDbContext<UsersContext>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
@@ -23,40 +26,20 @@ builder.Services.AddDbContext<ProductDataContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("ProductDataContext"));
 });
 
-builder.Services
-    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters()
-        {
-            ClockSkew = TimeSpan.Zero,
-            ValidateIssuer = true,
-            ValidateAudience = true,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            ValidIssuer = "apiWithAuthBackend",
-            ValidAudience = "apiWithAuthBackend",
+// Add Identity
+builder.Services.AddIdentityCore<IdentityUser>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = false;
+    options.User.RequireUniqueEmail = true;
+    options.Password.RequireDigit = false;
+    options.Password.RequiredLength = 6;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireLowercase = false;
+})
+.AddEntityFrameworkStores<UsersContext>();
 
-            // Replace this line with the known secret key
-            IssuerSigningKey = new SymmetricSecurityKey(
-                Encoding.UTF8.GetBytes("!SomethingSecret!")
-            ),
-        };
-    });
-
-builder.Services
-    .AddIdentityCore<IdentityUser>(options =>
-    {
-        options.SignIn.RequireConfirmedAccount = false;
-        options.User.RequireUniqueEmail = true;
-        options.Password.RequireDigit = false;
-        options.Password.RequiredLength = 6;
-        options.Password.RequireNonAlphanumeric = false;
-        options.Password.RequireUppercase = false;
-        options.Password.RequireLowercase = false;
-    })
-    .AddEntityFrameworkStores<UsersContext>();
-
+// Configure Swagger
 builder.Services.AddSwaggerGen(option =>
 {
     option.SwaggerDoc("v1", new OpenApiInfo { Title = "Demo API", Version = "v1" });
@@ -85,6 +68,39 @@ builder.Services.AddSwaggerGen(option =>
     });
 });
 
+// Configure Authentication
+builder.Services
+    .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters()
+        {
+            ClockSkew = TimeSpan.Zero,
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+            ValidateIssuerSigningKey = true,
+            ValidIssuer = "apiWithAuthBackend",
+            ValidAudience = "apiWithAuthBackend",
+
+            // Use the helper method to ensure a 32-byte key
+            IssuerSigningKey = new SymmetricSecurityKey(
+                PadKey(Encoding.UTF8.GetBytes("!SomethingSecret!"), 32)
+            ),
+        };
+    });
+
+byte[] PadKey(byte[] key, int length)
+{
+    if (key.Length >= length)
+    {
+        return key;
+    }
+
+    byte[] paddedKey = new byte[length];
+    Array.Copy(key, paddedKey, key.Length);
+    return paddedKey;
+}
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -95,15 +111,11 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// Middleware configuration
 app.UseHttpsRedirection();
-try
-{
-    app.UseAuthentication();
-    app.UseAuthorization();
-}
-catch (Exception ex)
-{
-    Console.WriteLine($"An error occurred: {ex.Message}");
-}
+app.UseAuthentication();
+app.UseAuthorization();
 app.MapControllers();
 app.Run();
+
+
