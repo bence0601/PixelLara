@@ -73,6 +73,7 @@ builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
+        options.IncludeErrorDetails=true;
         options.TokenValidationParameters = new TokenValidationParameters()
         {
             ClockSkew = TimeSpan.Zero,
