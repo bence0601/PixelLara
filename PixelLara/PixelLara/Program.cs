@@ -17,13 +17,16 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddScoped<IPageService, PageService>();
 
-builder.Services.AddDbContext<UsersContext>();
+builder.Services.AddDbContext<UsersContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 
 builder.Services.AddDbContext<ProductDataContext>(options =>
 {
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ProductDataContext"));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
 
 // Add Identity
