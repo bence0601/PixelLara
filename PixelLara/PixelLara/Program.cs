@@ -40,6 +40,7 @@ builder.Services.AddIdentityCore<IdentityUser>(options =>
     options.Password.RequireUppercase = false;
     options.Password.RequireLowercase = false;
 })
+    .AddRoles<IdentityRole>()
 .AddEntityFrameworkStores<UsersContext>();
 
 // Configure Swagger
