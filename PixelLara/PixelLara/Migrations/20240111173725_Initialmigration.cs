@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PixelLara.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Initialmigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -19,7 +19,7 @@ namespace PixelLara.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ShortDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     LongDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DeadLine = table.Column<DateOnly>(type: "date", nullable: false),
+                    DeadLine = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Contact = table.Column<int>(type: "int", nullable: false),
                     ContractTimeSet = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },

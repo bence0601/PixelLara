@@ -12,15 +12,15 @@ using PixelLara.Data;
 namespace PixelLara.Migrations
 {
     [DbContext(typeof(ProductDataContext))]
-    [Migration("20231217112842_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240111173725_Initialmigration")]
+    partial class Initialmigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0")
+                .HasAnnotation("ProductVersion", "7.0.14")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -39,8 +39,8 @@ namespace PixelLara.Migrations
                     b.Property<DateTime>("ContractTimeSet")
                         .HasColumnType("datetime2");
 
-                    b.Property<DateOnly>("DeadLine")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("DeadLine")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("LongDescription")
                         .IsRequired()
