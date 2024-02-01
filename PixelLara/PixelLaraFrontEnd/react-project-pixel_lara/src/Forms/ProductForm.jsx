@@ -13,13 +13,13 @@ const AddProductForm = () => {
     ShortDescription: '',
     LongDescription: '',
     DeadLine: '',
-    Contact: ContactEnum.Email, // Alapértelmezett érték beállítása
+    Contact: ContactEnum.Email, 
     ContractTimeSet: new Date().toISOString()
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    const newValue = name === 'Contact' ? parseInt(value) : value; // Csak a Contact mezőt konvertáljuk számmá
+    const newValue = name === 'Contact' ? parseInt(value) : value; 
     setProduct(prevState => ({
       ...prevState,
       [name]: newValue
