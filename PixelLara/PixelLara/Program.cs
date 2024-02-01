@@ -106,6 +106,16 @@ byte[] PadKey(byte[] key, int length)
     Array.Copy(key, paddedKey, key.Length);
     return paddedKey;
 }
+//CORS Configuration
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.WithOrigins("http://localhost:3000") 
+            .AllowAnyMethod()
+            .AllowAnyHeader();
+    });
+});
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -121,6 +131,7 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+app.UseCors();
 app.Run();
 
 
