@@ -1,7 +1,10 @@
 import React from "react";
-import {Link} from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
+    const handleClick = (e) => {
+        e.preventDefault();
+    }
     return (
         <nav>
             <ul>
@@ -13,4 +16,5 @@ const Navbar = () => {
         </nav>
     )
 }
+
 export default Navbar;
