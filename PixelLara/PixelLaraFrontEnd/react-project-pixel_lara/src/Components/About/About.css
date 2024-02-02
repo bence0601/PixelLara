@@ -1,0 +1,25 @@
+.about-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.about-introduction {
+  margin-bottom: 20px;
+}
+
+.about-additionalInfo {
+  margin-bottom: 20px;
+  width: 70%; 
+  margin: 0 auto;
+  text-align: center; 
+}
+
+.about-image-container {
+  display: flex;
+  justify-content: center;
+}
+
+.about-image {
+  max-width: 300px;
+}

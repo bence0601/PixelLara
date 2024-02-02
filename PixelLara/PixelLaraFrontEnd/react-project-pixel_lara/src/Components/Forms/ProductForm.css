@@ -1,0 +1,40 @@
+.add-product-form {
+    display: flex;
+    flex-direction: column;
+    width: 300px; /* Adjust the width as needed */
+    margin: 0 auto; /* Centers the form horizontally */
+  }
+  
+  .form-label {
+    margin-bottom: 10px;
+  }
+  
+  .form-input,
+  .form-textarea,
+  .form-select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #57648C; /* Border color */
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin-bottom: 10px;
+  }
+  
+  .form-select {
+    height: 36px; /* Adjust the height as needed */
+  }
+  
+  .form-button {
+    background-color: #934A5F; /* Button background color */
+    color: white; /* Button text color */
+    border: none;
+    border-radius: 4px;
+    padding: 10px 0;
+    cursor: pointer;
+    width: 100%;
+  }
+  
+  .form-button:hover {
+    background-color: #C2B4D6; /* Button background color on hover */
+  }
+  

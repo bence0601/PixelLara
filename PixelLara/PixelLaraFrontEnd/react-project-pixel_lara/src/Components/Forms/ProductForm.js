@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios from 'axios'; 
+import './ProductForm.css';
 
 const AddProductForm = () => {
     
@@ -38,29 +39,29 @@ const AddProductForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
+    <form className="add-product-form" onSubmit={handleSubmit}>
+      <label className="form-label">
         Short Description:
-        <input type="text" name="ShortDescription" value={product.ShortDescription} onChange={handleChange} />
+        <input className="form-input" type="text" name="ShortDescription" value={product.ShortDescription} onChange={handleChange} />
       </label>
-      <label>
+      <label className="form-label">
         Long Description:
-        <textarea name="LongDescription" value={product.LongDescription} onChange={handleChange} />
+        <textarea className="form-textarea" name="LongDescription" value={product.LongDescription} onChange={handleChange} />
       </label>
-      <label>
+      <label className="form-label">
         Dead Line:
-        <input type="date" name="DeadLine" value={product.DeadLine} onChange={handleChange} />
+        <input className="form-input" type="date" name="DeadLine" value={product.DeadLine} onChange={handleChange} />
       </label>
-      <label>
+      <label className="form-label">
         Contact:
-        <select name="Contact" value={product.Contact} onChange={handleChange}>
+        <select className="form-select" name="Contact" value={product.Contact} onChange={handleChange}>
           <option value={ContactEnum.Email}>Email</option>
           <option value={ContactEnum.InPerson}>In Person</option>
           <option value={ContactEnum.OnPhone}>On Phone</option>
           <option value={ContactEnum.VideoChat}>Video Chat</option>
         </select>
       </label>
-      <button type="submit">Submit</button>
+      <button className="form-button" type="submit">Submit</button>
     </form>
   );
 };
