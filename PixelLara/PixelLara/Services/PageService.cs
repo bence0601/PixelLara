@@ -23,5 +23,18 @@ namespace PixelLara.Services
         {
             return await _productDataContext.Orders.ToListAsync();
         }
+
+        public async Task<List<ProductModel>> DeleteProductAsync(int Id)
+        {
+            var productToDelete = await _productDataContext.Orders.FirstOrDefaultAsync(p => p.Id == Id);
+
+            if (productToDelete != null)
+            {
+                _productDataContext.Orders.Remove(productToDelete);
+                await _productDataContext.SaveChangesAsync();
+            }
+
+            return await _productDataContext.Orders.ToListAsync();
+        }
     }
 }

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 const AddProductForm = () => {
+    
   const ContactEnum = {
     Email: 0,
     InPerson: 1,

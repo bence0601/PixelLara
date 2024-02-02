@@ -6,5 +6,8 @@ namespace PixelLara.Services
     {
         Task <List<ProductModel>> GetProductsAsync ();
         Task <List<ProductModel>> CreateOrderAsync (ProductModel model);
+
+        Task<List<ProductModel>> DeleteProductAsync(int id);
+
     }
 }

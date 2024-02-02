@@ -25,6 +25,14 @@ namespace PixelLara.Controllers
             return Ok(result);
         }
 
+        [HttpDelete("/DeleteProduct")]
+        [Authorize]
+        public async Task<ActionResult<List<ProductModel>>> DeleteProductById(int Id)
+        {
+            var result = await _pageService.DeleteProductAsync(Id);
+            return Ok(result);
+        }
+
         [HttpPost("/AddProduct")]
         public async Task<ActionResult<List<ProductModel>>> AddProduct(ProductModel product)
         {
