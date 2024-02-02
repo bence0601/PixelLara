@@ -6,6 +6,7 @@
 
 .about-introduction {
   margin-bottom: 20px;
+  font-family: 'Arial Black', sans-serif;
 }
 
 .about-additionalInfo {
@@ -13,6 +14,7 @@
   width: 70%; 
   margin: 0 auto;
   text-align: center; 
+  font-family: 'Arial Black', sans-serif;
 }
 
 .about-image-container {

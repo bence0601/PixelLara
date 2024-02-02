@@ -3,6 +3,8 @@
     flex-direction: column;
     width: 300px; /* Adjust the width as needed */
     margin: 0 auto; /* Centers the form horizontally */
+    font-family: 'Arial Black', sans-serif;
+    
   }
   
   .form-label {
@@ -14,7 +16,7 @@
   .form-select {
     width: 100%;
     padding: 8px;
-    border: 1px solid #57648C; /* Border color */
+    border: 1px solid #CBD0D8; /* Border color (light gray) */
     border-radius: 4px;
     box-sizing: border-box;
     margin-bottom: 10px;
@@ -25,8 +27,8 @@
   }
   
   .form-button {
-    background-color: #934A5F; /* Button background color */
-    color: white; /* Button text color */
+    background-color: #333D51; /* Button background color (dark blue-gray) */
+    color: #F4F3EA; /* Button text color (off-white) */
     border: none;
     border-radius: 4px;
     padding: 10px 0;
@@ -35,6 +37,6 @@
   }
   
   .form-button:hover {
-    background-color: #C2B4D6; /* Button background color on hover */
+    background-color: #57648C; /* Button background color on hover (medium blue-gray) */
   }
   
