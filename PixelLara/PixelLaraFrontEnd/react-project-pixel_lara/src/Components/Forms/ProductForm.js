@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios from 'axios'; 
 import './ProductForm.css';
 
 const AddProductForm = () => {
+    
   const ContactEnum = {
     Email: 0,
     InPerson: 1,
@@ -13,16 +14,17 @@ const AddProductForm = () => {
   const [product, setProduct] = useState({
     ShortDescription: '',
     LongDescription: '',
-    DeadLine: '', // Initialize with an empty string
-    Contact: ContactEnum.Email,
+    DeadLine: '',
+    Contact: ContactEnum.Email, 
     ContractTimeSet: new Date().toISOString()
   });
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    const newValue = name === 'Contact' ? parseInt(value) : value; 
     setProduct(prevState => ({
       ...prevState,
-      [name]: value
+      [name]: newValue
     }));
   };
 
@@ -48,7 +50,7 @@ const AddProductForm = () => {
       </label>
       <label className="form-label">
         Dead Line:
-        <input className="form-input" type="datetime-local" name="DeadLine" value={product.DeadLine} onChange={handleChange} />
+        <input className="form-input" type="date" name="DeadLine" value={product.DeadLine} onChange={handleChange} />
       </label>
       <label className="form-label">
         Contact:
