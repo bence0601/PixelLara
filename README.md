@@ -38,9 +38,6 @@ If you encounter any issues or have questions about PixelLara, feel free to open
 
 ------------------------------------------
 
-License
-
-PixelLara is licensed under the MIT License. See the LICENSE file for more details.
 
 ------------------------------------------
 
